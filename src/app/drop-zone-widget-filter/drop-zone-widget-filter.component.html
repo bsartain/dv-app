@@ -1,0 +1,18 @@
+<div class="col-lg-12">
+    <div class="ibox dzone">
+        <div class="ibox-title">
+            <h5>FILTERS</h5>
+        </div>
+        <div class="ibox-content">
+            <div dnd-droppable class="container" style="width: 100%;padding:0">
+                <div class="panel panel-default" style="border:none; margin-bottom:0">
+                    <div dnd-droppable class="panel-body query-data-container" (onDropSuccess)="onDropSuccess($event)" style="padding:0">
+                      <li *ngFor="let data of _qpSvc.ftrSvc.objectTypeC.array(); let i = index" class="list-group-item">
+                        <app-filter-widget objectTypeName="{{data.txt_Object_Type_Name}}" objectTypeID="{{data.id_Object_Type_ID}}"></app-filter-widget>
+                      </li>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

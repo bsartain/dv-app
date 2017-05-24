@@ -1,0 +1,47 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Knowledge Base</h2>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-title">
+          <h5>Knowledge Base</h5>
+        </div>
+        <div class="ibox-content">
+
+          <div class="col-md-3 col-md-offset-9">
+            <div class="input-group m-b">
+              <span class="input-group-addon"><i class="fa fa-search"></i></span> 
+              <input class="form-control" placeholder="Search..." [(ngModel)]="filterQuery"/> 
+            </div>
+          </div> 
+
+          <table class="table table-striped knowledge-base" [mfData]="knowledgebase" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="asc">
+            <thead>
+              <tr>
+                <th style="width: 12%">Title</th>
+                <th>Definition</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let kb of knowledgebase | knowledgebase : filterQuery">
+                <td>{{ kb.title }}</td>
+                <td>{{ kb.definition }}</td>
+              </tr>
+              <!--<tr>
+                <td colspan="5">
+                    <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                </td>
+              </tr>-->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

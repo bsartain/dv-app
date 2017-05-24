@@ -1,0 +1,280 @@
+<!--<app-querypageheader></app-querypageheader>
+<body>
+    <app-dimensions></app-dimensions>
+    <div id="wrapper">
+        <div id="page-wrapper" >
+        <div id="parent" style="text-align: lef;">
+             <div id="child-left">
+                <app-drop-zone-widget-groupby id=dzGroupBy (notify)='onNotify($event)' [headerName]='dropZoneGroupBy' [widthInput]='750' [heightInput]='50'></app-drop-zone-widget-groupby>
+            </div>            
+            <div id="child-right" >
+                 <div class="col-md-10">
+                     <div class="row">
+                        <app-filters id=dzFilter [headerName]='dropZoneFilter'></app-filters>
+                     </div>
+                    <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <app-drop-zone-widget id=dzCrossTab [headerName]='dropZoneCrossTab' [widthInput]='300'></app-drop-zone-widget>
+                        </div>
+                        <div class="col-md-3">
+                            <app-drop-zone-widget-measure id=dzMeasures [headerName]='dropZoneMeasures' [widthInput]='200'></app-drop-zone-widget-measure>
+                        </div>
+                        </div>
+                    </div>
+                     <div class="row">-->
+                        <!--Table component and data-->
+                        <!--<app-result-table [(sharedVar)]="sharedValue"></app-result-table>    
+                     </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>-->
+<nav class="ceto-nav" style="background:#001601">
+    <!--<div class="navbar-left">
+        <a [routerLink]="['/dashboard']" class="nav navbar-top-links navbar-right" *ngIf="router.url != '/dashboard'"><i class="fa fa-caret-left"></i> back to dashboard</a>
+    </div>-->
+    <div class="navbar-left" style="margin-left: 15px;">
+        <a (click)="backToDash()" *ngIf="router.url != '/dashboard'"><i class="fa fa-caret-left"></i> back to dashboard</a>
+    </div>
+</nav>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-2">        
+        <!--<ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/dashboard']"><i class="fa fa-caret-left"></i> back to dashboard</a>
+            </li>
+        </ol>-->
+        <h2 id="displayName">
+            {{_qpSvc.displayName}}
+              <!-- scott ({{_qpSvc.theQuery.id_Query_ID}}: {{_qpSvc.theQuery.txt_Query_Status_Name}})-->
+        </h2>
+    </div>
+    <div class="col-lg-10">
+        <app-querypageheader></app-querypageheader>
+    </div>
+</div>
+
+<!--<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <div class="btn-primary">
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/dashboard']"><i class="fa fa-caret-left"></i> back to dashboard</a>
+            </li>
+        </ol>
+        </div>
+        <h2>{{query.display_name}}  ({{query.id_Query_ID}}: {{query.txt_Query_Status}})</h2>
+    </div>
+</div>-->
+
+<div class="wrapper wrapper-content animated fadeInRight">    
+    <div class="row">
+        <!--<div class="col-md-12 col-md-offset-3">
+            <app-querypageheader></app-querypageheader>
+        </div>-->
+        <div class="col-md-2 dimensions-container">
+            <app-dimensions></app-dimensions>
+        </div>
+        <div class="col-md-1 groupby-container">   
+                    
+            <!--Group by Panel-->
+            <app-drop-zone-widget-groupby id=dzGroupBy (notify)='onNotify($event)' [headerName]='dropZoneGroupBy' [heightInput]='40'></app-drop-zone-widget-groupby>
+
+        </div>
+        <div class="col-md-8">
+
+            <!--Filters Panel-->
+            <!--<app-filters id=dzFilter [headerName]='dropZoneFilter'></app-filters>-->
+            <app-drop-zone-widget-filter id=dzFilter></app-drop-zone-widget-filter>
+            
+            <!--Cross Tab Panel-->
+            <app-drop-zone-widget *ngIf="!measuresFirst"id=dzCrossTab [headerName]='dropZoneCrossTab' [widthInput]='250'></app-drop-zone-widget>
+            <app-drop-zone-widget-measure *ngIf="measuresFirst" id=dzMeasures [headerName]='dropZoneMeasures' [widthInput]='250'></app-drop-zone-widget-measure>
+            
+            
+            <div class="col-lg-2 arrow-container">
+                <a (click)="swapMesauresCrosstab()"> 
+                    <i class="fa fa-exchange"></i>
+                </a>
+            </div>
+
+            <!--<div class="col-lg-4 arrow-container">
+                <a class="pointer" (click)="swapMesauresCrosstab()"> 
+                    <i class="fa fa-exchange"></i>
+                </a>
+            </div>-->
+
+            
+            
+            <!--Measures Panel-->
+            <app-drop-zone-widget *ngIf="measuresFirst" id=dzCrossTab [headerName]='dropZoneCrossTab' [widthInput]='250'></app-drop-zone-widget>
+            <app-drop-zone-widget-measure *ngIf="!measuresFirst" id=dzMeasures [headerName]='dropZoneMeasures' [widthInput]='250'></app-drop-zone-widget-measure>
+            
+            <!-- Results Preview - DEB -->
+            <div class="col-lg-12" height="100%">
+                <div class="ibox">
+                    <div align="center" class="ibox-title">
+                        <h5 align="center">Preview Table</h5>
+                        <div class="ibox-tools">
+                            <button style="margin: -7px -7px 0px 0px" type="button" (click)="getPreview()" class="btn btn-primary btn-sm"><i class="fa fa-table"></i> Generate</button>
+                        </div>
+                    </div>
+                    <div class="ibox-content results-data scroll-container" name="divTable" height="100px" >
+                        <table class="table table-striped" width="100%" height="100%" border="1">
+                            <thead>
+                                <tr *ngFor="let hdrRowA of hdrRowAA; let i = index;">
+                                    <!--<th id="numGroupBy">{{i}} </th>-->
+                                    <th *ngFor="let hdr of hdrRowA" class="numMeasures1">{{hdr}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let rowA of dataRowAA;  let i = index;">
+                                    <!--<td>{{i}}</td>-->
+                                    <td *ngFor="let cell of rowA">{{cell}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table id="myTable" width="100%">
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!--Begin Save query modal-->
+            <div class="modal inmodal" id="saveQuery" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <i class="fa fa-floppy-o modal-icon"></i>
+                            <h4 class="modal-title">Name your new query</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Name:</label> 
+                                <input type="email" placeholder="Enter your query name" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Notes:</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter notes to describe your query"></textarea>
+                            </div>                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End Save query modal-->
+
+            <!--Begin Schedule modal-->
+            <div class="modal inmodal" id="scheduleQuery" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content animated bounceInRight">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <i class="fa fa-calendar modal-icon"></i>
+                            <h4 class="modal-title">Schedule</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Pattern:</label> 
+                                    <select class="form-control m-b" name="account">
+                                        <option>option 1</option>
+                                        <option>option 2</option>
+                                        <option>option 3</option>
+                                        <option>option 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Time:</label> 
+                                    <select class="form-control m-b" name="account">
+                                        <option>option 1</option>
+                                        <option>option 2</option>
+                                        <option>option 3</option>
+                                        <option>option 4</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Day:</label> 
+                                    <select class="form-control m-b" name="account">
+                                        <option>option 1</option>
+                                        <option>option 2</option>
+                                        <option>option 3</option>
+                                        <option>option 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Start Date:</label> 
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd"
+                                                    name="start" [(ngModel)]="newItem.StartTime" ngbDatepicker #start="ngbDatepicker">
+                                            <div class="input-group-addon" (click)="start.toggle()" >
+                                                <i class="fa fa-calendar pointer"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>End Date:</label> 
+                                    <form class="form-inline">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                            <input class="form-control" placeholder="yyyy-mm-dd"
+                                                    name="end" [(ngModel)]="newItem.EndTime" ngbDatepicker #end="ngbDatepicker">
+                                            <div class="input-group-addon" (click)="end.toggle()" >
+                                                <i class="fa fa-calendar pointer"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--End Schedule Modal-->
+                                                       
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>     
+        </div>
+    </div>    
+</div>
+
+<div class="modal inmodal" id="backToDashModal" tabindex="-1" role="dialog"  aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeIn">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-exclamation-triangle modal-icon"></i>
+                <h4 class="modal-title">You have unsaved changes.</h4>
+            </div>
+            <div class="modal-body">
+                <p><strong>Are you sure you want to exit without saving? </strong></p>
+                <p>Choose <strong>‘Save’</strong> to save your changes and navigate back to the dashboard.</p>
+                <p>Choose <strong>‘Discard Changes’</strong> to discard changes and navigate to the dashboard.</p>
+                <p>Choose <strong>‘Cancel’</strong> to continue modifying the current query.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="actuallyGoBackToDash()" data-dismiss="modal">Discard Changes</button>
+                <button type="button" class="btn btn-primary" (click)="backToDashSave()" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

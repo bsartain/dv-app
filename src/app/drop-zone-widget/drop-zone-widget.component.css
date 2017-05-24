@@ -1,0 +1,48 @@
+
+
+ul {
+    /*background: #3399ff;*/
+    padding: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border: none;
+}
+
+li {
+    border: none;
+}
+
+ul li {
+    /*background: #cce5ff;*/
+    margin: 5px;
+    padding: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    
+    /*height:50px;*/
+
+}
+
+
+.panel-heading{
+    text-align: center;
+}
+.panel-body{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: 100px;
+}
+
+.widgetdropzoneheader{
+    padding-top: 0px;
+    padding-bottom: 0px; 
+    padding-right: 0px; 
+    padding-left: 0px;
+}
+
+.widget{
+    padding-top: 3px;
+    padding-bottom: 3px; 
+    padding-right: 6px; 
+    padding-left: 6px;
+}

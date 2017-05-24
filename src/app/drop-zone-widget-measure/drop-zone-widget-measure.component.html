@@ -1,0 +1,44 @@
+
+<!--<div dnd-droppable class="panel panel-default" [ngStyle]="{'border':'none','width':  widthInput +'px', 
+'margin-right': '10px', 'margin-left': '10px'}">
+        <div class="panel-heading widgetdropzoneheader">
+            <b>{{ headerName }}</b>
+        </div>
+    <div class="panel panel-default" style="border:none">
+        <div dnd-droppable class="panel-body" (onDropSuccess)="transferDataSuccess($event)" style="border:none" [dropZones]="['zone2']">
+           <ul>
+                    <li  [hidden]="!receivedData.length > 0" *ngFor="let data of receivedData; let i = index" class="list-group-item" dnd-draggable [dragEnabled]="true">
+                        <div class="btn-group" role="group" style="float:left; margin-right: 2px; margin-left: 2px; margin-bottom: 2px">
+                                <a type="button" class="btn btn-default btn-outline widget" data-placement="bottom">{{data.txt_Display_Name}}</a>
+                                <a type="button" class="btn btn-default widget"><i class="glyphicon glyphicon-remove" style="color: red" aria-hidden="true" (click)='onClickRemove($event)' id='{{data.id_Measure_ID}}'></i></a>
+                        </div>
+                    </li>
+                </ul>
+        </div>   
+    </div>-->
+    
+    <!--right-from-arrow-->
+<div class="col-lg-5 ">
+    <div class="ibox dzone">
+        <div class="ibox-title">
+            <h5>{{ headerName }}</h5>
+        </div>
+        <div class="ibox-content">
+            <div dnd-droppable class="panel-body query-data-container" (onDropSuccess)="onDropSuccess($event)" style="border:none" [dropZones]="['zone2']">
+                <ul class="query-data-panels">
+                    <li  [hidden]="!_displayMeasureA.length > 0" *ngFor="let data of _displayMeasureA; let i = index" class="list-group-item" dnd-draggable [dragEnabled]="true">
+                        <div class="btn-group" role="group" style="float:left; margin-right: 2px; margin-left: 2px; margin-bottom: 2px">
+                            <a type="button" class="btn btn-default widget widget-remove-pad" data-placement="bottom">{{data.txt_Display_Name}}</a>
+                            <a type="button" class="btn btn-default widget widget-remove-pad"><i class="glyphicon glyphicon-remove" style="color: red" aria-hidden="true" (click)='onClickRemove($event)' id='{{data.id_Measure_ID}}'></i></a>
+<!--=======
+                                <a type="button" class="btn btn-default widget" data-placement="bottom">{{data.txt_Display_Name}}</a>
+                                <a type="button" class="btn btn-default widget"><i class="glyphicon glyphicon-remove" style="color: red" aria-hidden="true" (click)='onClickRemove($event)' id='{{data.id_Measure_ID}}'></i></a>
+>>>>>>> dev-->
+                        </div>
+                    </li>
+                </ul>
+            </div>   
+        </div>
+    </div>
+</div>
+

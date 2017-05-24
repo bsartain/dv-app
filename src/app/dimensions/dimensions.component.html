@@ -1,0 +1,38 @@
+
+<div class="dimensions-title-header">
+  <h3>Measures</h3>
+</div>
+
+<ngb-accordion id=i closeOthers="true">
+    <ngb-panel *ngFor="let msrGrp of _qpSvc.dimSvc.measureGroupC.array(); let i=index">
+        <ng-template ngbPanelTitle >
+            <a type="button" class="btn btn-outline objType-nav-header" id="123">
+                <i class="fa fa-plus objType-fa" aria-hidden="true"></i> {{msrGrp.txt_Measure_Group_Name}}
+            </a>
+        </ng-template>
+        <ng-template  ngbPanelContent>
+            <div *ngFor="let msr of msrGrp.measureA" dnd-draggable [dragEnabled]="true" [dragData]="[msr]" [dropZones]="['zone2']">
+                <a type="button" id={{msr.id_Measure_ID}}  class="btn btn-default btn-outline objType-nav-sub" data-placement="bottom"><i class="fa fa-ellipsis-v fa-tweak"></i> {{msr.txt_Display_Name}} </a>
+            </div>
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>
+
+<div class="dimensions-title-header">
+  <h3>Dimensions</h3>
+</div>
+<ngb-accordion id=i closeOthers="true">
+    <ngb-panel  *ngFor="let objType of _qpSvc.dimSvc.objectTypeC.array(); let i=index">
+        <ng-template ngbPanelTitle >
+            <a type="button" class="btn btn-outline objType-nav-header" id="{{objType.id_Object_Type_ID}}">
+                <i class="fa fa-plus objType-fa" aria-hidden="true"></i> {{objType.txt_Object_Type_Name}}
+            </a>
+        </ng-template>
+        <ng-template  ngbPanelContent>
+            <div *ngFor="let hdr of _qpSvc.dimSvc.hdrAA[objType.int_Display_Order]" dnd-draggable [dragEnabled]="true" [dragData]="[hdr]">
+                    <a type="button" id={{hdr.id_Header_ID}}  class="btn btn-default btn-outline objType-nav-sub" data-placement="bottom"><i class="fa fa-ellipsis-v fa-tweak"></i> {{hdr.txt_Header_Name}}<span class="badge" style="margin-left: 10px">{{hdr.int_Header_Value_Count}}</span></a>
+            </div>
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>
+

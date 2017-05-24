@@ -1,0 +1,287 @@
+
+<toaster-container></toaster-container>
+<nav class="navbar navbar-default navbar-static-top pull-right" role="navigation" style="margin-bottom: -10px; margin-top: 25px;width: 100%">
+    <div class="navbar-header" style="width: 100%; text-align: right;">
+        <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>-->
+        <div class="row">
+            <div class="col-md-7 carded-transactions-input">
+                <label class="radio-inline carded-transactions-radio">
+                    <input [checked]="query.bool_All_Transactions" (click)="checkedAllTransactions()" name="optradio" type="radio">All Transactions
+                </label>
+                <label class="radio-inline carded-transactions-radio">
+                    <input [checked]="query.bool_Card_Only" (click)="checkedCardOnly()" name="optradio" type="radio">Carded Only
+                </label>
+                <label class="radio-inline carded-transactions-radio" style="margin-right: 50px">
+                    <input name="optradio" type="radio" [checked]="query.bool_Non_Card_Only" (click)="checkedNonCard()">Non-Carded Only
+                </label>
+                <label class="checkbox-inline">
+                    <input value="" type="checkbox" [checked]="query.bool_Exclude_Supplies" (click)="checkExcludeSupplies()">Exclude Supplies
+                </label>
+                <label class="checkbox-inline carded-transactions-check">
+                    <input value="" type="checkbox" [checked]="query.bool_Exclude_Exception_HHs" (click)="checkExcludehh()">Exclude Exception HH's
+                </label>
+            </div>
+            <div class="col-md-5 btn-functions">
+                <a class="btn btn-primary btn-sm icon-ceto" (click)="runThenSaveThenDash(query)"><i class="fa fa-play"></i> Run</a>
+                <a id="saveQueryBtn" class="btn btn-primary btn-sm icon-ceto" data-toggle="modal" (click)="saveQuery()"><i class="fa fa-floppy-o"></i> Save</a>
+                <a href="#" routerLinkActive="active" class="btn btn-primary btn-sm icon-ceto" data-toggle="modal" data-target="#saveAsQuery"><i class="fa fa-floppy-o"></i> Save As</a>
+                <a href="#" class="btn btn-primary btn-sm icon-ceto" data-toggle="modal" data-target="#scheduleQuery"><i class="fa fa-calendar"></i> Schedule</a>
+            </div>
+                <div class="btn-group">
+                <!--<button data-toggle="dropdown" class="btn btn-primary btn-sm dropdown-toggle" aria-expanded="false"><i class="fa fa-cog"></i> Options <span class="caret"></span></button>
+                    <ul class="dropdown-menu btn-options">
+                        <li><a href="#">Show total rows</a></li>
+                        <li><a href="#">% Change year over year</a></li>
+                        <li><a href="#">Actual change year over year</a></li>
+                        <li><a href="#">Exclude exception households</a></li>
+                        <li><a href="#">Use basket limiters</a></li>
+                        <li><a href="#">Use exclude filter</a></li>
+
+                        <li><a style="font-size: 15px">Household</a></li>
+                        <li><input id="xx" class="mycheckbox" [checked]="1" style="margin-left: 40px" type="checkbox" name="items" value="123"> Carded </li>
+                        <li><input id="xx" class="mycheckbox" [checked]="0" style="margin-left: 40px" type="checkbox" name="items" value="123"> Non-Card </li>
+                        <li><input id="xx" class="mycheckbox" [checked]="0" style="margin-left: 40px" type="checkbox" name="items" value="123"> Exception </li>
+                        <li><input id="xx" class="mycheckbox" [checked]="1" style="margin-left: 40px" type="checkbox" name="items" value="123"> Not Exception </li>
+                        <li><a style="font-size: 15px">UPC</a></li>
+                        <li><input id="xx" class="mycheckbox" [checked]="1" style="margin-left: 40px" type="checkbox" name="items" value="123"> Not Supplies </li>
+                        <li><input id="xx" class="mycheckbox" [checked]="0" style="margin-left: 40px" type="checkbox" name="items" value="123"> Supplies </li>
+                        <input id="{{ftrVal.id_Header_Value_ID}}" class="mycheckbox" style="margin-left: 2px" type="checkbox" name="items" value="{{ftrVal.id_Header_Value_ID}}"
+                                                    [checked]="ftr.fvSelectedH[ftrVal.id_Header_Value_ID]"
+                                                    (change)="onChangeCheckbox1(ftr, ftrVal)"
+                                                    >
+                      </ul>-->
+                </div>
+        </div>
+
+    </div>
+    <!-- /.navbar-header -->
+    <ul class="nav navbar-top-links navbar-left col-md-offset-1">
+        <!--<li><a href="#" routerLinkActive="active" style="padding-bottom: 4px;  height: 10px"><span class="glyphicon glyphicon-floppy-disk"></span>Save</a></li>
+        <li><a href="#" routerLinkActive="active" style="padding-bottom: 4px;  height: 10px"><span class="glyphicon glyphicon-floppy-saved"></span>Save As</a></li>-->
+    </ul>
+    <!-- /.navbar-top-links -->            
+</nav>
+
+
+<!--Begin Save query modal-->
+<div class="modal inmodal" id="saveQuery" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-floppy-o modal-icon"></i>
+                <h4 class="modal-title">Name your new query</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name:</label> 
+                    <input type="text" [(ngModel)]="query.txt_Query_Name" name="queryName" placeholder="Enter your query name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Notes:</label>
+                    <textarea class="form-control" [(ngModel)]="query.txt_Description" name="queryDescription" rows="3" placeholder="Enter notes to describe your query"></textarea>
+                </div>                            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="saveQueryModel(query.id_Query_ID)">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Save query modal-->
+
+<!--Begin "Save As"" query modal-->
+<div class="modal inmodal" id="saveAsQuery" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-floppy-o modal-icon"></i>
+                <h4 class="modal-title">Save this query as...</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Name:</label> 
+                    <input type="text" [(ngModel)]="query.txt_Query_Name" name="queryName" placeholder="Enter your query name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Notes:</label>
+                    <textarea class="form-control" [(ngModel)]="query.txt_Description" name="queryDescription" rows="3" placeholder="Enter notes to describe your query"></textarea>
+                </div>                            
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" (click)="saveQueryAs(query)" data-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End "Save As"" query modal-->
+
+<!--Begin Schedule modal-->
+<div class="modal inmodal" id="scheduleQuery" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-calendar modal-icon"></i>
+                <h4 class="modal-title">Schedule</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Pattern:</label> 
+                        <select class="form-control m-b" name="schedule" disabled>
+                            <option>Weekly</option>
+                            <option>Bi-Weekly</option>
+                            <option>Daily</option>
+                            <option>Monthly</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label>Time:</label> 
+                        <select class="form-control m-b" name="schedule" disabled>
+                            <option>12:00 AM</option>
+                            <option>1:00 AM	</option>
+                            <option>2:00 AM	</option>
+                            <option>3:00 AM	</option>
+                            <option>4:00 AM	</option>
+                            <option>5:00 AM	</option>
+                            <option>6:00 AM	</option>
+                            <option>7:00 AM	</option>
+                            <option>8:00 AM	</option>
+                            <option>9:00 AM	</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM	</option>
+                            <option>2:00 PM	</option>
+                            <option>3:00 PM	</option>
+                            <option>4:00 PM	</option>
+                            <option>5:00 PM	</option>
+                            <option>6:00 PM	</option>
+                            <option>7:00 PM	</option>
+                            <option>8:00 PM	</option>
+                            <option>9:00 PM	</option>
+                            <option>10:00 PM</option>
+                            <option>11:00 PM</option>
+                            <option>12:00 AM</option>
+                            <option>1:00 AM	</option>
+                            <option>2:00 AM	</option>
+                            <option>3:00 AM	</option>
+                            <option>4:00 AM	</option>
+                            <option>5:00 AM	</option>
+                            <option>6:00 AM	</option>
+                            <option>7:00 AM	</option>
+                            <option>8:00 AM	</option>
+                            <option>9:00 AM	</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM	</option>
+                            <option>2:00 PM	</option>
+                            <option>3:00 PM	</option>
+                            <option>4:00 PM	</option>
+                            <option>5:00 PM	</option>
+                            <option>6:00 PM	</option>
+                            <option>7:00 PM	</option>
+                            <option>8:00 PM	</option>
+                            <option>9:00 PM	</option>
+                            <option>10:00 PM</option>
+                            <option>11:00 PM</option>
+                            <option>11:30 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Day:</label> 
+                        <select class="form-control m-b" name="schedule" disabled>
+                            <option>Sunday</option>
+                            <option>Monday</option>
+                            <option>Tuesday</option>
+                            <option>Wednesday</option>
+                            <option>Thursday</option>
+                            <option>Friday</option>
+                            <option>Saturday</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Start Date:</label> 
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd"
+                                        name="start" [(ngModel)]="newItem.StartTime" ngbDatepicker #start="ngbDatepicker" disabled>
+                                <!--(click)="start.toggle()" Goes inside this div for the datepicker-->
+                                <div class="input-group-addon" >
+                                    <i class="fa fa-calendar pointer"></i>
+                                </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <label style="width:100%">
+                            End Date:
+                            <small class="pull-right"> 
+                            <input type="checkbox" value="option1" id="inlineCheckbox1" style="vertical-align: text-bottom;" disabled> No end date
+                            </small>
+                        </label>
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                <input class="form-control" placeholder="yyyy-mm-dd"
+                                        name="end" [(ngModel)]="newItem.EndTime" ngbDatepicker #end="ngbDatepicker" disabled>
+                                <!--(click)="end.toggle()" Goes inside this div for the datepicker-->
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar pointer"></i>
+                                </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>                           
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Save</button>
+                <button (click)="clearValues()" type="button" class="btn btn-default pull-left" style="border:none; color:#E23237">
+                    <i class="fa fa-trash"></i> Clear Schedule
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Schedule Modal-->
+
+<!--Begin "Save Before Run" query modal-->
+<div class="modal inmodal" id="saveBeforeRun" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+    <div class="modal-content animated bounceInRight">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <i class="fa fa-floppy-o modal-icon"></i>
+                <h4 class="modal-title">Please save before you run your query</h4>
+            </div>
+            <!--<div class="modal-body">
+                <p>Hello world</p>
+            </div>-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="saveFromModalThenRun(query)" data-dismiss="modal">Save And Run</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End "Save Before Run" query modal-->
+
+

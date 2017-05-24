@@ -1,0 +1,376 @@
+<div class="loading" *ngIf="overlay">Loading...</div>
+<toaster-container></toaster-container>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Dashboard</h2>
+        <!--<ol class="breadcrumb">
+            <li>
+                <a href="index.html">Dashboard</a>
+            </li>
+        </ol>-->
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="text-center m-t-lg">
+                <div class="row">
+                  <div class="col-lg-12">
+                      <div class="ibox">
+                          <div class="ibox-title">
+                              <h5>Dashboard</h5>
+                              <div class="ibox-tools">
+                                    <a (click)="newQuery()" class="btn btn-primary btn-outline" style="margin-bottom: 7px">
+                                        <i class="fa fa-magic"></i> New Query
+                                    </a>
+                                </div>
+                          </div>
+                          <div class="ibox-content">
+                            <ngb-tabset (tabChange)="beforeChange($event)">
+                              <!--Begin saved queries tab-->
+                              <ngb-tab title="My Queries" id="dashQuery">
+                                  <ng-template ngbTabContent>
+                                      <div class="row">
+                                          <div class="col-md-3" align="left">
+                                              <!--<div class="form-group">
+                                                  <label for="exampleInputName2">Show: </label>
+                                                  <select class="form-control input-sm select-ceto" [(ngModel)]="sortBy" placeholder="Select..">
+                                                      <option ngValue="txt_Query_Name">Query Name</option>
+                                                      <option ngValue="txt_Query_Status">Status</option>
+                                                      <option ngValue="dt_Last_Run">Last Edit</option>
+                                                      <option ngValue="dt_Schedule_Report">Next Scheduled</option>
+                                                  </select>
+                                              </div>                                              -->
+                                          </div>
+                                          <div class="col-md-6">&nbsp;</div>
+                                          <div class="col-md-3">
+                                              <div class="form-group pull-right" style="margin-bottom:30px">
+                                                  <div class="input-group">
+                                                      <input type="text" class="form-control" placeholder="Search.." [(ngModel)]="dashquery">
+                                                  <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="table-responsive">
+                                      <table border="0" class="table table-striped-odd" [mfData]="_dashSvc.queryC.array()" #mf="mfDataTable" [mfRowsOnPage]="15" [(mfSortBy)]="sortBy">
+                                              <thead>
+                                              <tr>
+                                                  <th>
+                                                      
+                                                  </th>
+                                                  <th style="width: 40%; text-align: left">
+                                                      <mfDefaultSorter by="txt_Query_Name">Query Name</mfDefaultSorter>
+                                                  </th>
+                                                  <th style="width: 20%">
+                                                    <table border="0" style="width: 100%" >
+                                                        <tr>
+                                                            <td style="width: 20%">
+                                                                <a (click)="refreshQuery(null)" class="pointer">
+                                                                    <i class="fa fa-refresh"></i>
+                                                                    <!--<div *ngIf="refreshSpinner" class="sk-spinner sk-spinner-fading-circle">
+                                                                        <div class="sk-circle1 sk-circle"></div>
+                                                                        <div class="sk-circle2 sk-circle"></div>
+                                                                        <div class="sk-circle3 sk-circle"></div>
+                                                                        <div class="sk-circle4 sk-circle"></div>
+                                                                        <div class="sk-circle5 sk-circle"></div>
+                                                                        <div class="sk-circle6 sk-circle"></div>
+                                                                        <div class="sk-circle7 sk-circle"></div>
+                                                                        <div class="sk-circle8 sk-circle"></div>
+                                                                        <div class="sk-circle9 sk-circle"></div>
+                                                                        <div class="sk-circle10 sk-circle"></div>
+                                                                        <div class="sk-circle11 sk-circle"></div>
+                                                                        <div class="sk-circle12 sk-circle"></div>
+                                                                    </div>-->
+                                                                </a>
+                                                            </td>
+                                                            <td style="width: 80%; text-align: left; padding-left: 10px">
+                                                              <mfDefaultSorter by="txt_Query_Status_Name">Status</mfDefaultSorter>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                  </th>
+                                                  <th style="width: 20%; text-align: left">
+                                                      <mfDefaultSorter by="dt_Last_Edit">Last Edit</mfDefaultSorter>
+                                                  </th>
+                                                  <th style="width: 20%; text-align: left">
+                                                      <mfDefaultSorter by="dt_Schedule_Report">Next Scheduled</mfDefaultSorter>
+                                                  </th>
+                                                  <th>Run</th>
+                                                  <th>Edit</th>
+                                                  <th>Copy</th>
+                                                  <th>Share</th>
+                                                  <th>Delete</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody class="row-color" *ngFor="let dashboard of mf.data  | dashboard:dashquery; let i = index">
+                                              <tr>
+                                                  <td>
+                                                    <a id="resExpand-{{dashboard.id_Query_ID}}" (click)="clickExpand(dashboard)">
+                                                        <i *ngIf="!qid2expandedH[dashboard.id_Query_ID]" class="fa fa-plus"></i>
+                                                        <i *ngIf="qid2expandedH[dashboard.id_Query_ID]" class="fa fa-minus"></i>
+                                                    </a>
+                                                  </td>
+                                                  <td [ngClass]="{'flipped': dashboard.isflipped }" style="text-align: left">{{dashboard.txt_Query_Name}}
+                                                       <!-- scott --><a *ngIf="this._userService.name()=='sgw'"> ({{dashboard.id_Query_ID}}, {{dashboard.id_Medusa_Query_ID}}) </a>
+                                                       <a class="pointer" (click)="dashboard.isflipped = !dashboard.isflipped;"> <i class="fa fa-pencil"></i></a></td>
+                                                  <td [ngClass]="{'flipped': !dashboard.isflipped }">
+                                                      <div class="input-group">
+                                                          <input type="text" class="form-control" [(ngModel)]="dashboard.txt_Query_Name" name="queryName"> 
+                                                            <span class="input-group-btn"> 
+                                                                <button type="button" class="btn btn-success" (click)="changeQueryName(dashboard)">Save</button> 
+                                                            </span>
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                    <table border="0" style="width: 100%">
+                                                        <tr>
+                                                            <td style="width: 20%">
+                                                                <a (click)="refreshQuery(dashboard)" [hidden]='hideOption(dashboard, "status")' class="pointer" data-toggle="tooltip" data-placement="top" title="Status Message Appears Here">
+                                                                    <i class="fa fa-refresh"></i>
+                                                                </a>
+                                                            </td>
+                                                            <td style="width: 80%; text-align: left; padding-left: 10px">
+                                                                {{dashboard.txt_Query_Status_Name}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                  </td>
+                                                  <td style="text-align: left">{{dashboard.dt_Last_Edit}}</td>
+                                                  <!--<td style="text-align: left">{{dashboard.dt_Schedule_Report}}</td>-->
+                                                  <td style="text-align: left"></td>
+                                                  <td><a (click)="runQuery(dashboard)" [hidden]='hideOption(dashboard, "run")' class="pointer"><i class="fa fa-play"></i></a></td>
+                                                  <td><a [hidden]='hideOption(dashboard, "edit")' class="pointer" (click)="querydataPage(dashboard)" ><i class="fa fa-pencil-square-o" ></i></a>
+                                                  <td><a (click)="copyQuery(dashboard)" [hidden]='hideOption(dashboard, "copy")' class="pointer"><i class="fa fa-files-o"></i></a></td>
+                                                  <td><a [hidden]='hideOption(dashboard, "share")' class="pointer" (click)="_dashSvc.shareQuery(dashboard.id_Query_ID)"><i class="fa fa-users"></i></a></td>
+                                                  <td><a [hidden]='hideOption(dashboard, "delete")' class="pointer" data-toggle="modal" data-target="#deleteQuery" (click)="deleteQueryVar(dashboard)"><i id={{dashboard}} class="fa fa-trash-o"></i></a></td>
+                                                  
+                                                  <!--Begin Delete Query Modal-->
+                                                  <div class="modal inmodal" id="deleteQuery" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                    <div class="modal-content animated bounceInRight">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4 class="modal-title">Are you sure you want to delete this query?</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>If you delete this query, all results associated with it will also be deleted.</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                                                <button type="button" class="btn btn-primary" id={{dashboard}} (click)="deleteQuery()" data-dismiss="modal">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--End Delete Query Modal-->
+                                              </tr>
+                                              <tr *ngIf=qid2expandedH[dashboard.id_Query_ID]>
+                                                  <td colspan="10">
+                                                      <div class="row desc-pad">
+                                                          <div class="col-md-5 col-md-offset-1" style="text-align: left">
+                                                              
+                                                              <div class="row">
+                                                                  <h4><a (click)="showEdit(dashboard, dashboard.txt_Description)" *ngIf="!dashboard.isEditing" class="pointer" style="color: #2249a3">Edit notes <i class="fa fa-pencil"></i></a></h4>
+                                                                  
+                                                                  <div id="notesDesc" *ngIf="plainDescDiv">
+                                                                      {{dashboard.txt_Description}}
+                                                                  </div>
+                                                                  
+                                                                  <div *ngIf="dashboard.isEditing">
+                                                                      <h4 style="color: #2249a3">Edit Notes <i class="fa fa-pencil"></i></h4>
+                                                                      <form id="description_form{{i}}" #notetwo>
+                                                                          <textarea name="notes" [(ngModel)]="dashboard.txt_Description" class="form-control" type="text" rows="6"></textarea>
+                                                                          <button type="submit" class="btn btn-success btn-sm pull-right dash-btn" (click)="changeDescription(dashboard)" *ngIf="dashboard.isEditing">Save</button>
+                                                                          <button id={{i}} class="btn btn-default btn-sm pull-right dash-btn" (click)="cancelEdit(dashboard)" *ngIf="dashboard.isEditing" style="color: #2249a3">Cancel</button>                                             
+                                                                      </form>
+                                                                  </div>
+                                                              </div>
+
+                                                              <div class="row" style="margin-top:40px">
+                                                              <h4>Query Summary <i class="fa fa-list-alt"></i></h4>
+                                                                <p class="querySum" [innerHTML]="replaceLineBreak(dashboard.txt_Query_Summary)"></p>
+                                                                <!--querySummary(dashboard)
+                                                                scott-->
+                                                                  <!--<ul class="square">
+                                                                      <li>UPC: Supercategory, stuff, Category, stuff</li>
+                                                                      <li>Household: Stuff</li>
+                                                                      <li>Date: 01/26/2017</li>
+                                                                      <li>Stores: Region, Southwest</li>
+                                                                      <li>Measures: Avg. Price</li>
+                                                                  </ul>-->
+                                                                  <!--<ul *ngFor="let summary of dashboard.resultB">
+                                                                      <li>{{ summary.name }}</li>
+                                                                      <li>{{ summary.value }}</li>
+                                                                  </ul>-->
+                                                              </div>
+                                                          </div>
+                                                          <!--<h4 style="color: #fff">Results:</h4>-->
+                                                          <div class="col-md-4 col-md-offset-1 table-scroll-results">
+                                                              <table class="table table-bordered table-hover table-results">
+                                                                  <thead>
+                                                                      <tr>
+                                                                          <th>Results Date</th>
+                                                                          <th>Expiration Date</th>
+                                                                          <th>Export</th>
+                                                                          <th>Delete</th>
+                                                                      </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                      <tr *ngFor="let results of dashboard.resultA">
+                                                                          <td>{{ results.dt_Create | date:'shortDate' }}</td>
+                                                                          <td>{{ results.dt_Expire | date:'shortDate' }}</td>
+                                                                          <td><a class="pointer" [href]="getUrl(results.id_Result_ID, results.txt_Windows_Result_Path)" download><i class="fa fa-download"></i></a></td>
+                                                                          <td><a (click)="deleteResultQuery(results, $event)" data-toggle="modal" data-target="#deleteResult" class="pointer"><i class="fa fa-trash-o"></i></a></td>
+                                                                      </tr>
+                                                                  </tbody>
+                                                              </table>
+                                                          </div>
+                                                          
+                                                          
+                                                      </div>    
+                                                  </td>
+                                              </tr>
+                                              </tbody>
+                                              <tfoot>
+                                              <tr>
+                                                  <td colspan="5">
+                                                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,100]"></mfBootstrapPaginator>
+                                                  </td>
+                                              </tr>
+                                              </tfoot>
+                                                <!--Begin Delete Query Modal-->
+                                                <div class="modal inmodal" id="deleteResult" tabindex="-1" role="dialog" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                    <div class="modal-content animated bounceInRight">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                                                <h4 class="modal-title">Are you sure you want to delete this query result?</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>If you delete this result, all other results associated with it will also be deleted.</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+                                                                <button id="findAttr" type="button" class="btn btn-primary find-expand" (click)="deleteResult($event)" data-dismiss="modal">Delete</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--End Delete Query Modal-->
+                                          </table>
+                                      </div>
+                                  </ng-template>
+                              </ngb-tab>
+                              <!--End saved queries tab-->
+                              <!--Begin shared queries tab-->
+                              <ngb-tab title="Shared Library" id="sharedLibrary">
+                                  <ng-template ngbTabContent>
+                                      <div class="row">
+                                          <div class="col-md-3" align="left">
+                                              <!--<div class="form-group">
+                                                  <label for="exampleInputName2">Show: </label>
+                                                  <select class="form-control input-sm select-ceto" [(ngModel)]="sortBy" placeholder="Select..">
+                                                      <option ngValue="txt_Query_Name">Query Name</option>
+                                                      <option ngValue="txt_User_Name">Author</option>
+                                                      <option ngValue="dt_Last_Edit">Shared Date</option>
+                                                  </select>
+                                              </div>-->
+                                              
+                                          </div>
+                                          <div class="col-md-6">&nbsp;</div>
+                                          <div class="col-md-3">
+                                              <div class="form-group pull-right" style="margin-bottom:30px">
+                                                  <div class="input-group">
+                                                      <input type="text" class="form-control" placeholder="Search.." [(ngModel)]="sharedquery">
+                                                  <div class="input-group-addon"><span class="glyphicon glyphicon-search"></span></div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                      <div class="table-responsive">
+
+                                        <table class="table table-striped-odd" [mfData]="_dashSvc.querySharedC.array()" #mf="mfDataTable" [mfRowsOnPage]="10" [(mfSortBy)]="sortBy">
+                                              <thead>
+                                              <tr>
+                                                  <th>
+                                                      Details
+                                                  </th>
+                                                  <th style="width: 20%">
+                                                      <mfDefaultSorter by="txt_Query_Name">Query Name</mfDefaultSorter>
+                                                  </th>
+                                                  <th style="width: 40%">
+                                                      <mfDefaultSorter by="txt_User_Name">Author</mfDefaultSorter>
+                                                  </th>
+                                                  <th style="width: 10%">
+                                                      <mfDefaultSorter by="dt_Last_Edit">Shared Date</mfDefaultSorter>
+                                                  </th>
+                                                  <th>Copy</th>
+                                                  <th>Un-share</th>
+                                              </tr>
+                                              </thead>
+                                              <tbody *ngFor="let share of mf.data | sharedquery:sharedquery">
+                                              <tr>
+                                                  <td>
+                                                    <a class="reveal" (click)="myclick(share)">
+                                                        <i *ngIf="!qid2expandedH[share.id_Query_ID]" class="fa fa-plus"></i>
+                                                        <i *ngIf="qid2expandedH[share.id_Query_ID]" class="fa fa-minus"></i>
+                                                    </a>
+                                                  </td>
+                                                  <td>{{share.txt_Query_Name}}</td>
+                                                  <td>{{share.txt_User_Name}}</td>
+                                                  <td>{{share.dt_Last_Edit}}</td>
+                                                  <td><a (click)="copySharedQuery(share)" class="pointer"><i class="fa fa-files-o"></i></a></td>
+                                                  <td><a (click)="unShare(share)" class="pointer"><i class="fa fa-undo"></i></a></td>
+                                              </tr>
+                                              <tr *ngIf=qid2expandedH[share.id_Query_ID]>
+                                                  <td colspan="9">
+                                                      <div class="row desc-pad">
+                                                          <div class="col-md-5 col-md-offset-1" style="text-align: left">
+                                                              <h4>Query Summary:</h4>
+                                                              <div>
+                                                                  <!--<p>{{share.txt_Description}}</p>-->
+                                                                  <p>Summary</p>
+                                                              </div>
+                                                          </div>
+                                                          <div class="col-md-4 col-md-offset-1" style="text-align: left">
+                                                              <h4>Notes:</h4>
+                                                              <div>
+                                                                  <p>{{ share.txt_Description }}</p>            
+                                                              </div>
+                                                          </div>
+                                                      </div>    
+                                                  </td>
+                                              </tr>
+                                              </tbody>
+                                              <tfoot>
+                                              <tr>
+                                                  <td colspan="5">
+                                                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,15]"></mfBootstrapPaginator>
+                                                  </td>
+                                              </tr>
+                                              </tfoot>
+                                          </table>
+                                      </div>
+                                  </ng-template>
+                              </ngb-tab>
+                              <!--End shared queries tab-->                           
+                          </ngb-tabset>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

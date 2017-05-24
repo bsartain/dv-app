@@ -1,0 +1,91 @@
+      <div class="btn-group" role="group">
+          <a type="button" class="btn btn-default " id='idElement-{{ftr.id_Header_ID}}' (click)='removeHeader($event, ftr.id_Header_ID)'>
+                        <i class="glyphicon glyphicon-trash" style="color: red" aria-hidden="true" (click)='removeHeader($event, ftr.id_Header_ID)'
+                            id='{{ftr.id_Query_Filter_ID}}'></i>
+          </a>
+          <a type="button" style="background-color: white" class="btn btn-default btn-outline " data-placement="bottom" >
+            {{ftr.txt_Header_Name}}
+                        <!-- scott <span class="badge badge-default">{{_qpSvc.dimSvc.hid2CountH[ftr.id_Header_ID]}}</span>-->
+          </a>
+
+          <a type="button" #closeTemp class="btn btn-default " 
+            
+              id='{{data}}' placement="bottom"  #popover="ngbPopover" [ngbPopover]="popContent"
+              (click)='popoverClick(popover, ftr.id_Header_ID)'
+              (shown)='popoverShown($event)'
+              (hidden)='popoverHidden($event)'
+              >
+              <i class="glyphicon glyphicon-pencil" style="color: dodgerblue"  aria-hidden="true"
+                  id={{data}}></i>
+          </a>
+
+          <!--Start-1 of popup checkbox template-->
+          <ng-template #popContent>
+            <div *ngIf="_showSave1">
+              <!--<h3> scott #1 {{objectTypeName}} : {{ftr.txt_Header_Name}} : {{ftr.id_Query_Filter_ID}}</h3>-->
+              <div>
+                  <form>
+                      <div class="input-group" style="margin-bottom: 10px">
+                          <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term" [(ngModel)]="term">
+                          <div class="input-group-btn">
+                              <button class="btn btn-default" type="submit" style="background-color:lightgray"><i class="glyphicon glyphicon-search"></i></button>
+                          </div>
+                      </div>
+                  </form>
+                  <div class="container" style="margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0">
+                      <div style="float:left; margin-left: 0; margin-right: 8%">
+
+                          <input id="mycheckboxAll" class="mycheckboxAll" type="checkbox" (ng-model)="ftr" [checked]="ftr.allChecked" (change)="checkAll(ftr)"><b>All Shown</b>
+
+                      </div>
+                      <!--<div>
+                          <a id="clearSearch" type="button">Clear search</a>
+                      </div> -->
+                  </div>
+                  <div id="chkboxList" style="max-height: 300px; overflow: scroll; border:solid; border-width: thin; margin-bottom: 5px">
+                      <ul id="headerList" style="list-style: none; padding-left: 0px">
+                          <!--<li *ngFor="let hdrVal of _qpSvc.ftrSvc.filterH[ftr.id_Query_Filter_ID].hid2ValuesH[ftr.id_Header_ID] | filterArray:term">-->
+                          <li *ngFor="let ftrVal of ftr.fvA | filterArray:term:ftr">
+                              <div style="width: 250px" id="getCheckBoxes">
+
+                                  <input id="{{ftrVal.id_Header_Value_ID}}" class="mycheckbox" style="margin-left: 2px" type="checkbox" name="items" value="{{ftrVal.id_Header_Value_ID}}"
+                                      [checked]="ftr.fvSelectedH[ftrVal.id_Header_Value_ID]"
+                                      (change)="onChangeCheckbox1(ftr, ftrVal)"
+                                      >
+                                  {{ftrVal.txt_Header_Value}} 
+                                  
+                              </div>
+                          </li>
+                      </ul>
+                  </div>
+                  <button id="btnHeaderSave" type="button" class="btn btn-primary pull-right" (click)="onSave1(ftr.id_Header_ID)" style="margin-bottom: 5px">Save</button>
+              </div>
+            </div>
+          <!--</template>-->
+          <!-- End-1 -->
+
+          <!--<template #selValues>-->
+            <div *ngIf="_showSave2">
+              <h1>#2</h1>
+              <div style="max-height: 300px; width: 250px; overflow: scroll; border:solid; border-width: thin; margin-bottom: 5px">
+                  <ul id="savedData" style="list-style-type: none">
+                      <li *ngFor="let shv of HeaderValues">
+                          <input id={{shv.id_Header_Value_ID}} class="mycheckbox" style="margin-left: 2px" type="checkbox" (change)="logCheckbox(shv.id_Header_Value_ID, shv.id_Header_ID, $event)"
+                              name="items" value={{shv.id_Header_Value_ID}}>{{shv.txt_Header_Value}} - {{shv.id_Header_Value_ID}}<br>
+                    </li>
+                  </ul>
+              </div>
+              <div style="float: left">
+                  <button type="button" id='deleteHeader' ng-bind-html="true" data-placement="bottom" (click)='deleteSelectedClick()'
+                      class="btn btn-secondary pull-right" style="margin-bottom: 5px">Delete Selected</button>
+              </div>
+              <div>
+                  <button type="button" id='{{data}}' (click)='onClickShowMore(HeaderValues)' ng-bind-html="true" data-placement="bottom"
+                      class="btn btn-primary pull-right"
+                      style="margin-bottom: 5px">Add More</button>
+              </div>
+            </div>
+          </ng-template>
+
+        </div>
+      

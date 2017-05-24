@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Inspinia</title> 
+
+  <!-- DataTables CSS -->
+  <link href="../assets/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+  <!-- DataTables Responsive CSS -->
+  <link href="../assets/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+  <!--DataTables css-->
+  <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+
+  <!--CSS for the toast service-->
+  <link rel="stylesheet" type="text/css" href="../assets/vendor/toast/toaster.css" />
+
+  <!-- jQuery -->
+  <script src="../assets/vendor/jquery/jquery.min.js"></script>
+
+  <!-- DataTables JavaScript -->
+  <script src="../assets/vendor/datatables/js/jquery.dataTables.min.js"></script>
+  <script src="../assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+  <script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover({ html : true}); 
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root>Loading...</app-root>
+</body>
+</html>

@@ -1,0 +1,58 @@
+
+<!--<div dnd-droppable class="panel panel-default container_2" style="border:none; position:absolute; bottom: 0px; width: 100%">
+        <div class="panel-heading widgetdropzoneheader" style="border:none;width: 730px; text-align: center">
+            <b>{{ headerName }}</b>
+        </div>
+    <div id="groupby" class="panel panel-default" style="border:none" dnd-sortable-container [sortableData]="receivedData">
+        <div dnd-droppable class="panel-body" (onDropSuccess)="transferDataSuccess($event)"  [ngStyle]="{'border':'none','width': widthInput + 'px', 'height': heightInput + 'px', 'text-align': center}">
+           <ul>
+                    <li  [hidden]="!receivedData.length > 0" *ngFor="let data of receivedData; let i = index" class="list-group-item"  dnd-draggable [dragEnabled]="true" [dragData]="[data]" dnd-sortable [sortableIndex]="i">
+                        <div class="btn-group" role="group" style="float:left; margin-right: 2px; margin-left: 2px; margin-bottom: 2px">
+                                <a type="button" class="btn btn-default btn-outline widget" data-placement="bottom" data-toggle="popover">{{data.txt_Header_Name}}</a>
+                                <a type="button" class="btn btn-default widget" (click)='onClickRemove($event)' id='{{data.id_Header_ID}}'><i class="glyphicon glyphicon-remove" style="color: red" aria-hidden="true" (click)='onClickRemove($event)' id='{{data.id_Header_ID}}'></i></a>
+                        </div>
+                    </li>
+                </ul>
+        </div>   
+    </div>
+</div>-->
+
+<div class="col-lg-12">
+    <div class="ibox dz-group-by-ibox dzone">
+        <div class="ibox-title">
+            <h5>{{ headerName }}</h5>
+        </div>
+        <div class="ibox-content" dnd-droppable>
+            <div id="groupby" dnd-sortable-container [sortableData]="receivedData">
+                <div dnd-droppable (onDropSuccess)="transferDataSuccess($event)" class="panel-body query-data-container">
+                    <ul class="pull-right">
+                        <li style="float:left" [hidden]="!_displayGroupByA.length > 0" *ngFor="let gb of _displayGroupByA; let i = index" class="list-group-item"  dnd-draggable [dragEnabled]="true" [dragData]="[gb]" dnd-sortable [sortableIndex]="i">
+                            <div class="btn-group group-by-btn-group" role="group">
+                                <a type="button" class="btn btn-default widget widget-remove-pad" data-placement="bottom" data-toggle="popover">{{gb.txt_Header_Name}}</a>
+                                <a type="button" class="btn btn-default widget widget-remove-pad" id='{{gb.id_Header_ID}}'><i class="glyphicon glyphicon-remove" style="color: red" aria-hidden="true" (click)='onClickRemove($event)' id='{{gb.id_Header_ID}}'></i></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>   
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    
+
+
+    
+
+
+
+   
+    
+
+
+
+    
+
+
