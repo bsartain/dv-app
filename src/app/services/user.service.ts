@@ -22,13 +22,13 @@ export class UserService {
     // this.currentUserCookie = this.getCookie('ASP.NET_SessionId');
     // console.log('COOKIE ' + JSON.stringify(this.currentUserCookie))
     // if (this.currentUserCookie == null) {
-    //   return "dvtech"
+    //   return "someuser"
     // } else {
     //   return this.currentUserCookie
     // }
     // console.log('COOKIE ' + JSON.stringify(this.currentUserCookie))
-    return "sgw";
-    //return "dvtech";
+    return "bla";
+    //return "someuser";
   }
 
   data_server_URL () : string {
