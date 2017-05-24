@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 
@@ -18,3 +19,25 @@ ng g module query-page
 ng g component query-page
 ng g service query-page/query-page
 
+=======
+
+
+
+npm install
+
+npm start
+
+npm install -g @angular/cli
+
+
+# Problems, this often fixes it:
+https://github.com/angular/angular-cli#updating-angular-cli
+
+ng g service services/query/Query
+ng g service services/query-query-data
+
+ng g module query-page
+ng g component query-page
+ng g service query-page/query-page
+
+>>>>>>> 727cc92694a214930eccff30d44afc8f2bb8deda
