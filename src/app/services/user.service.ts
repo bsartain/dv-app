@@ -32,10 +32,7 @@ export class UserService {
   }
 
   data_server_URL () : string {
-    //return `http://octopus:9000/api/`;
     return `http://localhost:9000/api/`;
-    //return 'http://spike.dv-client.local:9000/api/'
-    //return `https://test-idv.dataventures.com:1435/api/`;
   }
 
   xpdb() : string {
